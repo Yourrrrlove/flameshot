@@ -136,16 +136,3 @@ CaptureLauncher::~CaptureLauncher()
 {
     delete ui;
 }
-
-/*
-
-
-
-
-
-
-
-;
-
-
-*/
