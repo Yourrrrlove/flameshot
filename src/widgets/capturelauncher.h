@@ -21,17 +21,11 @@ public:
 
 private:
     Ui::CaptureLauncher* ui;
-
-};
-
-/*
-private:
-    void connectCaptureSlots();
-    void disconnectCaptureSlots();
+    void connectCaptureSlots() const;
+    void disconnectCaptureSlots() const;
 
 private slots:
     void startCapture();
-    void startDrag();
-    void captureTaken(QPixmap p, const QRect& selection);
+    void captureTaken(QPixmap p);
     void captureFailed();
-*/
+};
