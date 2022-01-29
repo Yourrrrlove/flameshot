@@ -5,20 +5,26 @@
 
 #include <QDialog>
 
-class QCheckBox;
-class QPushButton;
-class QVBoxLayout;
-class QComboBox;
-class QSpinBox;
-class QLabel;
-class ImageLabel;
+QT_BEGIN_NAMESPACE
+namespace Ui {
+class CaptureLauncher;
+}
+QT_END_NAMESPACE
 
 class CaptureLauncher : public QDialog
 {
     Q_OBJECT
+
 public:
     explicit CaptureLauncher(QDialog* parent = nullptr);
+    ~CaptureLauncher();
 
+private:
+    Ui::CaptureLauncher* ui;
+
+};
+
+/*
 private:
     void connectCaptureSlots();
     void disconnectCaptureSlots();
@@ -28,12 +34,4 @@ private slots:
     void startDrag();
     void captureTaken(QPixmap p, const QRect& selection);
     void captureFailed();
-
-private:
-    QSpinBox* m_delaySpinBox;
-    QComboBox* m_captureType;
-    QVBoxLayout* m_mainLayout;
-    QPushButton* m_launchButton;
-    QLabel* m_CaptureModeLabel;
-    ImageLabel* m_imageLabel;
-};
+*/

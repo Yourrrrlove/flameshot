@@ -6,7 +6,7 @@ target_sources(
         flameshot
         PRIVATE
         infowindow.ui
-        launcher.ui
+        capturelauncher.ui
 
         capturelauncher.h
         draggablewidgetmaker.h

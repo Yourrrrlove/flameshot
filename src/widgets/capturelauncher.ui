@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CaptureLauncher</class>
- <widget class="QWidget" name="CaptureLauncher">
+ <widget class="QDialog" name="CaptureLauncher">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>644</width>
-    <height>149</height>
+    <width>612</width>
+    <height>191</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Capture Launcher</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_4">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLabel" name="imagePreview">
+      <widget class="ImageLabel" name="imagePreview">
        <property name="text">
         <string>TextLabel</string>
        </property>
@@ -25,13 +25,12 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="1">
-    <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QLabel" name="modeLabel">
        <property name="font">
         <font>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -47,7 +46,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QGridLayout" name="gridLayout_2">
+      <layout class="QGridLayout" name="gridLayout_3">
        <item row="1" column="0">
         <widget class="QLabel" name="areaLabel">
          <property name="text">
@@ -95,6 +94,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ImageLabel</class>
+   <extends>QLabel</extends>
+   <header>imagelabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

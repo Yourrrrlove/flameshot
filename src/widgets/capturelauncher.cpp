@@ -2,48 +2,58 @@
 // SPDX-FileCopyrightText: 2017-2018 Alejandro Sirgo Rica & Contributors
 
 #include "capturelauncher.h"
+#include "./ui_capturelauncher.h"
 #include "src/core/controller.h"
 #include "src/utils/globalvalues.h"
 #include "src/utils/screengrabber.h"
 #include "src/utils/screenshotsaver.h"
 #include "src/widgets/imagelabel.h"
-#include <QComboBox>
 #include <QDrag>
-#include <QFormLayout>
-#include <QGridLayout>
-#include <QLabel>
 #include <QMimeData>
-#include <QPushButton>
-#include <QSpinBox>
+
 
 // https://github.com/KDE/spectacle/blob/941c1a517be82bed25d1254ebd735c29b0d2951c/src/Gui/KSWidget.cpp
 // https://github.com/KDE/spectacle/blob/941c1a517be82bed25d1254ebd735c29b0d2951c/src/Gui/KSMainWindow.cpp
 
 CaptureLauncher::CaptureLauncher(QDialog* parent)
   : QDialog(parent)
+  , ui(new Ui::CaptureLauncher)
 {
     qApp->installEventFilter(this); // see eventFilter()
+    ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowIcon(QIcon(GlobalValues::iconPath()));
-    m_imageLabel = new ImageLabel(this);
     bool ok;
-    m_imageLabel->setScreenshot(ScreenGrabber().grabEntireDesktop(ok));
-    if (!ok) {
-    }
+
+    ui->imagePreview->setScreenshot(ScreenGrabber().grabEntireDesktop(ok));
+    ui->imagePreview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+
+
+    show();
+}
+
+CaptureLauncher::~CaptureLauncher()
+{
+    delete ui;
+}
+
+
+/*
+
+CaptureLauncher::CaptureLauncher(QDialog* parent)
+  : QDialog(parent)
+{
+
     m_imageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(m_imageLabel,
             &ImageLabel::dragInitiated,
             this,
             &CaptureLauncher::startDrag);
 
-    QGridLayout* layout = new QGridLayout(this);
-    layout->addWidget(m_imageLabel, 0, 0);
 
-    m_CaptureModeLabel = new QLabel(tr("<b>Capture Mode</b>"));
 
-    m_captureType = new QComboBox();
-    m_captureType->setMinimumWidth(240);
-    // TODO remember number
+
     m_captureType->insertItem(
       1, tr("Rectangular Region"), CaptureRequest::GRAPHICAL_MODE);
 
@@ -56,16 +66,10 @@ CaptureLauncher::CaptureLauncher(QDialog* parent)
     m_captureType->insertItem(
       2, tr("Full Screen (All Monitors)"), CaptureRequest::FULLSCREEN_MODE);
 #endif
-    // m_captureType->insertItem(3, tr("Single Screen"),
-    // CaptureRequest::SCREEN_MODE);
 
-    m_delaySpinBox = new QSpinBox();
-    m_delaySpinBox->setSingleStep(1.0);
-    m_delaySpinBox->setMinimum(0.0);
-    m_delaySpinBox->setMaximum(999.0);
+
     m_delaySpinBox->setSpecialValueText(tr("No Delay"));
-    m_delaySpinBox->setMinimumWidth(160);
-    // with QT 5.7 qOverload<int>(&QSpinBox::valueChanged),
+
     connect(m_delaySpinBox,
             static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this,
@@ -74,29 +78,12 @@ CaptureLauncher::CaptureLauncher(QDialog* parent)
                 this->m_delaySpinBox->setSuffix(sufix);
             });
 
-    m_launchButton = new QPushButton(tr("Take new screenshot"));
-    m_launchButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     connect(m_launchButton,
             &QPushButton::clicked,
             this,
             &CaptureLauncher::startCapture);
     m_launchButton->setFocus();
-
-    QFormLayout* captureModeForm = new QFormLayout;
-    captureModeForm->addRow(tr("Area:"), m_captureType);
-    captureModeForm->addRow(tr("Delay:"), m_delaySpinBox);
-    captureModeForm->setContentsMargins(24, 0, 0, 0);
-
-    m_mainLayout = new QVBoxLayout();
-    m_mainLayout->addStretch(1);
-    m_mainLayout->addWidget(m_CaptureModeLabel);
-    m_mainLayout->addLayout(captureModeForm);
-    m_mainLayout->addStretch(10);
-    m_mainLayout->addWidget(m_launchButton, 1, Qt::AlignCenter);
-    m_mainLayout->setContentsMargins(10, 0, 0, 10);
-    layout->addLayout(m_mainLayout, 0, 1);
-    layout->setColumnMinimumWidth(0, 320);
-    layout->setColumnMinimumWidth(1, 320);
+;
 }
 
 // HACK:
@@ -189,3 +176,4 @@ void CaptureLauncher::captureFailed()
     show();
     m_launchButton->setEnabled(true);
 }
+*/
