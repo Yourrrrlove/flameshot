@@ -48,7 +48,7 @@ CaptureLauncher::CaptureLauncher(QDialog* parent)
             static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this,
             [this](int val) {
-                QString sufix = val == 1 ? tr(" second") : tr(" seconds");
+                QString suffix = val == 1 ? tr(" second") : tr(" seconds");
                 this->ui->delayTime->setSuffix(sufix);
             });
 
@@ -68,10 +68,12 @@ void CaptureLauncher::startCapture()
     hide();
 
     auto const additionalDelayToHideUI = 600;
-    auto const secondsToMiliseconds = 1000;
+    auto const secondsToMilliseconds = 1000;
     auto mode = static_cast<CaptureRequest::CaptureMode>(
       ui->captureType->currentData().toInt());
-    CaptureRequest req(mode, additionalDelayToHideUI + ui->delayTime->value() * secondsToMiliseconds);
+    CaptureRequest req(mode,
+                       additionalDelayToHideUI +
+                         ui->delayTime->value() * secondsToMilliseconds);
     connectCaptureSlots();
     Controller::getInstance()->requestCapture(req);
 }
@@ -105,19 +107,19 @@ void CaptureLauncher::disconnectCaptureSlots() const
                &CaptureLauncher::captureFailed);
 }
 
-void CaptureLauncher::captureTaken(QPixmap p)
+void CaptureLauncher::captureTaken(QPixmap screenshot)
 {
     // MacOS specific, more details in the function disconnectCaptureSlots()
     disconnectCaptureSlots();
 
-    ui->imagePreview->setScreenshot(p);
+    ui->imagePreview->setScreenshot(screenshot);
     show();
 
     auto mode = static_cast<CaptureRequest::CaptureMode>(
       ui->captureType->currentData().toInt());
 
     if (mode == CaptureRequest::FULLSCREEN_MODE) {
-        ScreenshotSaver().saveToFilesystemGUI(p);
+        ScreenshotSaver().saveToFilesystemGUI(screenshot);
     }
     ui->launchButton->setEnabled(true);
 }
